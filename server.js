@@ -1,7 +1,6 @@
 const express = require("express");
 
 const loaders = require("./loaders");
-const User = require("./model/User");
 
 const startServer = () => {
     const app = express();
