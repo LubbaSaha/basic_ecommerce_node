@@ -27,6 +27,30 @@ const postUserData = async (body) => {
     }
 }
 
+const getCategory = async () => {
+
+    try {
+
+        const user = await User
+            .query()
+            .select("id", "user_name", "email", "status");
+    
+            return {
+                status: 200,
+                user
+            };
+
+    } catch (error) {
+    
+        console.log(error);
+        return {
+            status: 500,
+            msg: "Something is wrong!"
+        };
+    }
+}
+
 module.exports = {
-    postUserData
+    postUserData,
+    getCategory
 };
