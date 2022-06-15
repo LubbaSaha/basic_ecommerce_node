@@ -9,7 +9,9 @@ exports.up = function(knex) {
         table.integer("u_id").unsigned().notNullable();
         table.integer("rating").unsigned().notNullable();
         table.string("comment", 255);
+
         table.foreign("u_id").references("id").inTable("user").onDelete("CASCADE");
+        
         table.timestamps(false, true);
     });
 };

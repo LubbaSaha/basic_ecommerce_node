@@ -11,9 +11,11 @@ exports.up = function(knex) {
         table.integer("review_id").unsigned();
         table.integer("u_id").unsigned().notNullable();
         table.integer("cat_id").unsigned();
+
         table.foreign("review_id").references("id").inTable("review").onDelete("SET NULL");
         table.foreign("u_id").references("id").inTable("user").onDelete("CASCADE");
         table.foreign("cat_id").references("id").inTable("category").onDelete("SET NULL");
+        
         table.boolean("is_publish").notNullable();
         table.timestamps(false, true);
     });
