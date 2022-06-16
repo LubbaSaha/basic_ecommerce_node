@@ -10,7 +10,7 @@ const productRoutes = (app) => {
     router.get("/all", productController.getProducts);
     router.patch("/:id", isAdmin, productController.updateProductById);
     router.patch("/publish/:id", isAdmin, productController.updatePublishProductById);
-    // router.get("/:id", userController.getUserById);
+    router.get("/", productController.getProductById);
     // router.delete("/", userController.deleteUserByEmail);
 
     app.use("/product", router);

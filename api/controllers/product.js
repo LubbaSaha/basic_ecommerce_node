@@ -22,11 +22,18 @@ const updatePublishProductById = async (req, res) => {
 
     const result = await productService.updatePublishProductById(req.params.id, req.body);
     return res.status(result.status).json(result);
+};
+
+const getProductById = async (req, res) => {
+
+    const result = await productService.getProductById(req.query.id);
+    return res.status(result.status).json(result);
 }
 
 module.exports = {
     postProductData,
     getProducts,
     updateProductById,
-    updatePublishProductById
+    updatePublishProductById,
+    getProductById
 }

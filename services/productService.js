@@ -115,9 +115,41 @@ const updatePublishProductById = async (id, body) => {
     }
 }
 
+const getProductById = async (id) => {
+
+    try {
+
+        const product = await Product
+            .query()
+            .select("id", "p_name", "p_des", "review_id", "a_id", "cat_id", "is_publish")
+            .findOne({ id });
+
+        if (!product) {
+            return {
+                status: 404,
+                msg: "Not found"
+            };
+        }
+
+        return {
+            status: 200,
+            product
+        };
+
+    } catch (error) {
+        console.log(error);
+
+        return {
+            status: 500,
+            msg: "Server error"
+        };
+    }
+}
+
 module.exports = {
     postProductData,
     getProducts,
     updateProductById,
-    updatePublishProductById
+    updatePublishProductById,
+    getProductById
 };
