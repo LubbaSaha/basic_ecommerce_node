@@ -4,6 +4,7 @@ const userRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
 const adminRoutes = require("./routes/admin");
 const productRoutes = require("./routes/product");
+const orderRoutes = require("./routes/order");
 
 const loadRoutes = () => {
     const router = Router();
@@ -12,6 +13,7 @@ const loadRoutes = () => {
     adminRoutes(router);
     categoryRoutes(router);
     productRoutes(router);
+    orderRoutes(router);
 
     return router;
 }
