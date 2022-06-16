@@ -1,23 +1,20 @@
-const User = require("../model/User");
+const Admin = require("../model/Admin");
 
-const postUserData = async (body) => {
+const postAdminData = async (body) => {
     
-    const userData = {
-        user_name: body.user_name,
+    const adminData = {
+        admin_name: body.admin_name,
         email: body.email,
-        password: body.password,
-        status: body.status
+        password: body.password
     }
-
-    console.log(userData);
 
     try {
 
-        const user = await User.query().insert(userData);
+        const admin = await Admin.query().insert(adminData);
 
         return {
             status: 200,
-            user
+            admin
         };
 
     } catch (error) {
@@ -30,17 +27,17 @@ const postUserData = async (body) => {
     }
 }
 
-const getUsers = async () => {
+const getAdmins = async () => {
 
     try {
 
-        const user = await User
+        const admin = await Admin
             .query()
-            .select("id", "user_name", "email", "status");
+            .select("id", "admin_name", "email", "password");
     
             return {
                 status: 200,
-                user
+                admin
             };
 
     } catch (error) {
@@ -54,6 +51,6 @@ const getUsers = async () => {
 }
 
 module.exports = {
-    postUserData,
-    getUsers
+    postAdminData,
+    getAdmins
 };
