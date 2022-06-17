@@ -32,13 +32,15 @@ const postProductData = async (body) => {
     }
 }
 
-const getProducts = async () => {
+const getProducts = async (data) => {
 
     try {
 
         const product = await Product
             .query()
-            .select("id", "p_name", "p_des", "review_id", "a_id", "cat_id", "is_publish");
+            .select("id", "p_name", "p_des", "review_id", "a_id", "cat_id", "is_publish")
+            .limit(data.limit)
+            .offset(data.offset);
 
             console.log(product);
 

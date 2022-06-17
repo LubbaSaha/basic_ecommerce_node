@@ -6,7 +6,7 @@ const router = Router();
 
 const productRoutes = (app) => {
     
-    router.post("/", isAdmin,productController.postProductData);
+    router.post("/", isAdmin, productController.postProductData);
     router.get("/all", productController.getProducts);
     router.patch("/:id", isAdmin, productController.updateProductById);
     router.patch("/publish/:id", isAdmin, productController.updatePublishProductById);

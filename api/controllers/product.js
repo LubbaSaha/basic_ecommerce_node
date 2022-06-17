@@ -8,7 +8,7 @@ const postProductData = async (req, res) => {
 
 const getProducts = async (req, res) => {
 
-    const result = await productService.getProducts();
+    const result = await productService.getProducts(req.query);
     return res.status(result.status).json(result);
 };
 
