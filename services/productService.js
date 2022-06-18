@@ -36,6 +36,25 @@ const getProducts = async (data) => {
 
     try {
 
+        if (data.search) {
+
+            const product = await Product
+                .query()
+                .select("id", "p_name", "p_des", "review_id", "a_id", "cat_id", "is_publish")
+                .leftJoin("category", "Product.cat_id", "category.id")
+                // .where("Product.p_name", "like", `%${data.search}%`)
+                .Where("category.cat_name", "like", `${data.search}`)
+                .limit(data.limit)
+                .offset(data.offset);
+
+                console.log(product);
+
+                return {
+                    status: 200,
+                    product
+                };
+        }
+
         const product = await Product
             .query()
             .select("id", "p_name", "p_des", "review_id", "a_id", "cat_id", "is_publish")
