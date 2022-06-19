@@ -5,6 +5,7 @@ const categoryRoutes = require("./routes/category");
 const adminRoutes = require("./routes/admin");
 const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
+const cartRoutes = require("./routes/cart");
 
 const loadRoutes = () => {
     const router = Router();
@@ -14,6 +15,7 @@ const loadRoutes = () => {
     categoryRoutes(router);
     productRoutes(router);
     orderRoutes(router);
+    cartRoutes(router);
 
     return router;
 }

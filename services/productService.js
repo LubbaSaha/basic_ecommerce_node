@@ -36,32 +36,20 @@ const getProducts = async (data) => {
 
     try {
 
-        if (data.search) {
-
-            const product = await Product
-                .query()
-                .select("id", "p_name", "p_des", "review_id", "a_id", "cat_id", "is_publish")
-                .leftJoin("category", "Product.cat_id", "category.id")
-                // .where("Product.p_name", "like", `%${data.search}%`)
-                .Where("category.cat_name", "like", `${data.search}`)
-                .limit(data.limit)
-                .offset(data.offset);
-
-                console.log(product);
-
-                return {
-                    status: 200,
-                    product
-                };
-        }
+        const search_key = data.search.trim(); 
 
         const product = await Product
             .query()
-            .select("id", "p_name", "p_des", "review_id", "a_id", "cat_id", "is_publish")
+            .select("product.id", "p_name", "p_des", "review_id", "a_id", "cat_id", "is_publish")
+            .modify(builder => {
+                if (data.search) {
+                    builder.innerJoin("category", "product.cat_id", "category.id");
+                    builder.where("product.p_name", "like", `%${search_key}%`);
+                    builder.orWhere("category.cat_name", "like", `%${search_key}%`);
+                }
+            })
             .limit(data.limit)
             .offset(data.offset);
-
-            console.log(product);
 
             return {
                 status: 200,
