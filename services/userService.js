@@ -1,5 +1,10 @@
 const User = require("../model/User");
 
+const doesUserExist = async (email) => {
+    const userExist = await User.query().select("id").findOne({ email });
+    return userExist;
+}
+
 const postUserData = async (body) => {
     
     const userData = {
@@ -9,9 +14,17 @@ const postUserData = async (body) => {
         status: body.status
     }
 
-    console.log(userData);
-
     try {
+
+        const oldUser = await doesUserExist(body.email);
+
+        if (oldUser) {
+            return {
+                status: 403,
+                msg: "User Data already exist",
+                user: oldUser
+            };
+        }
 
         const user = await User.query().insert(userData);
 
@@ -54,6 +67,7 @@ const getUsers = async () => {
 }
 
 module.exports = {
+    doesUserExist,
     postUserData,
     getUsers
 };

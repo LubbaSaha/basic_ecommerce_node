@@ -1,16 +1,39 @@
 const Order = require("../model/Order");
+const userService = require("../services/userService");
+
+const { orderStatus, userStatus } = require("../utils/const");
 
 const postOrderData = async (body) => {
     
     const orderData = {
-        u_id: body.u_id,
-        status: body.status,
-        user_name: body.user_name,
-        email: body.email,
-        address: body.address
-    }
+        u_id: null,
+        status: orderStatus.PENDING,
+        address: body.address,
+    };
 
     try {
+        
+        if (!body.u_id) {
+
+            let user = null;
+
+            user = await userService.doesUserExist(body.email);
+
+            if (!user) {
+            
+                user = await userService.postUserData({
+                    user_name: body.user_name,
+                    email: body.email,
+                    password: body.password,
+                    status: userStatus.ACTIVE
+                });
+
+            }
+
+            console.log(user);
+
+            orderData.u_id = user.id ? user.id : user.user.id;
+        }
 
         const order = await Order.query().insert(orderData);
 
@@ -35,7 +58,7 @@ const getOrders = async () => {
 
         const order = await Order
             .query()
-            .select("id", "u_id", "status", "user_name", "email", "address");
+            .select("id", "u_id", "status", "address");
     
             return {
                 status: 200,
