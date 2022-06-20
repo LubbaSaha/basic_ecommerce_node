@@ -1,16 +1,42 @@
 const Cart = require("../model/Cart");
 
+const redisClient = require("../utils/redis-client");
+
 const postCartData = async (body) => {
     
     const cartData = {
-        u_id: body.u_id,
         p_id: body.p_id,
         quantity: body.quantity
-    }
+    };
 
     try {
 
-        const cart = await Cart.query().insert(cartData);
+        let cart = await redisClient.get(`cart-${body.u_id}`);
+        cart = JSON.parse(cart);
+
+        if (!cart) {
+            cart = [];
+            cart.push(cartData);
+        } else {
+            
+            const foundIndex = cart.findIndex((item) => item.p_id === body.p_id);
+
+            if (foundIndex !== -1) {
+
+                const newQuantity = cart[foundIndex].quantity + cartData.quantity;
+
+                if (newQuantity > 0 ) {
+                    cart[foundIndex].quantity = newQuantity;
+                } else {
+                    cart.splice(foundIndex, 1);
+                }
+
+            } else {
+                cart.push(cartData);
+            }
+        }
+
+        redisClient.set(`cart-${body.u_id}`, JSON.stringify(cart));
 
         return {
             status: 200,
@@ -94,6 +120,7 @@ const updateCartQuantity = async (id, body) => {
 
 const deleteCartById = async (id) => {
     try {
+        
         await Cart
             .query()
             .delete()

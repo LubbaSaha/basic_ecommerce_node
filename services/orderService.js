@@ -1,6 +1,8 @@
 const Order = require("../model/Order");
 const userService = require("../services/userService");
 
+const redisClient = require("../utils/redis-client");
+
 const { orderStatus, userStatus } = require("../utils/const");
 
 const postOrderData = async (body) => {

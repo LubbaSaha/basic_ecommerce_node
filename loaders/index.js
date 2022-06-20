@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const expressLoader = require("./express");
 const databaseLoader = require("./database");
 

@@ -3,6 +3,7 @@ const { Model } = require("objection");
 const knexConfiq = require("../knexfile");
 
 const loadDatabase = () => {
+    
     const knex = Knex(knexConfiq.development);
     Model.knex(knex);
 
